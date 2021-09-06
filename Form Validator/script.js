@@ -21,15 +21,24 @@ function showSucces(input) {
 }
 
 // Check email
-function isValidEmail(email) {
-    const emailRe = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return emailRe.test(String(email).toLowerCase());
+function checkEmail(input) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (re.test(input.value.trim())) {
+      showSucces(input);
+    } else {
+      showError(input, 'Email in not valid');
+    }
 }
 
+
 // Check phone
-function isValidPhone(phone) {
-    const phoneRe = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
-    return phoneRe.test(String(phone));
+function checkPhone(input) {
+  const re = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+  if (re.test(input.value.trim())) {
+    showSucces(input);
+  } else {
+    showError(input, "Phone in not valid");
+  }
 }
 
 // Check required fields
@@ -56,7 +65,6 @@ function getFielName(input) {
 }
 
 // Check lenght
-
 function checkLenght(input, min, max) {
   if (input.value.length < min) {
     showError(
@@ -79,5 +87,7 @@ form.addEventListener('submit', function(e) {
   checkRequired([username, email, phone, password, password2])
   checkLenght(username, 3, 15);
   checkLenght(password, 6, 25);
+  checkEmail(email);
+  checkPhone(phone);
   checkPasswordMatch(password, password2)
 })
